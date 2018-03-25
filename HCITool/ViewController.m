@@ -15,7 +15,7 @@
 struct BluetoothCall {
     uint64_t args[7];
     uint64_t sizes[7];
-    uint64_t index;
+    uint32_t index;
 };
 
 struct BluetoothCallB {
@@ -49,7 +49,6 @@ typedef struct {
     
     [self readConnectionTimeout:nil];
     //[self writeName:nil];
-    
     
     /*
     unsigned int createRequestError = [hciController requestWithTimeout:0x1770 isSynchronous:YES device:0x0];
@@ -223,20 +222,21 @@ int _BluetoothHCISendRawCommand(struct HCIRequest request, void *commandData, si
     //var_18 = arg2;
     int errorCode = 0; // var_4
     
-    //struct BluetoothCall call; // var_90
+    struct BluetoothCall call; // var_90
     size_t size = 0x74;
     //assert(size == sizeof(call));
-    void *call = malloc(size);
-    memset(call, 0x0, size);
+    //void *call = malloc(size);
+    memset(&call, 0x0, size);
     
     if ((commandData != 0x0) && (commmandSize > 0x0)) {
         
-        uint32 *callPointer = (uint32 *)call;
-        callPointer[0] = request.identifier;
-        callPointer[1] = commandData;
-        callPointer[2] = commmandSize;
+        call.args[0] = (uintptr_t)&request.identifier;
+        call.args[1] = (uintptr_t)commandData;
+        call.args[2] = (uintptr_t)&commmandSize;
         //call = (struct BluetoothCallB)&request; //var_90 = &var_8;
         
+        // IOBluetoothHostController::
+        // SendRawHCICommand(unsigned int, char*, unsigned int, unsigned char*, unsigned int)
         errorCode = BluetoothHCIDispatchUserClientRoutine(&call, 0x0, 0x0);
     }
     else {
