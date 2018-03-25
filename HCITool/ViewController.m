@@ -15,7 +15,7 @@
 struct BluetoothCall {
     uint64_t args[7];
     uint64_t sizes[7];
-    uint32_t index;
+    uint64_t index;
 };
 
 struct BluetoothCallB {
@@ -217,15 +217,10 @@ int __sendRawHCIRequest(int arg0, int arg1, int arg2, int arg3) {
 
 int _BluetoothHCISendRawCommand(struct HCIRequest request, void *commandData, size_t commmandSize) {
     
-    //var_8 = arg0;
-    //var_10 = arg1;
-    //var_18 = arg2;
-    int errorCode = 0; // var_4
+    int errorCode = 0;
     
-    struct BluetoothCall call; // var_90
+    struct BluetoothCall call;
     size_t size = 0x74;
-    //assert(size == sizeof(call));
-    //void *call = malloc(size);
     memset(&call, 0x0, size);
     
     if ((commandData != 0x0) && (commmandSize > 0x0)) {
@@ -233,6 +228,10 @@ int _BluetoothHCISendRawCommand(struct HCIRequest request, void *commandData, si
         call.args[0] = (uintptr_t)&request.identifier;
         call.args[1] = (uintptr_t)commandData;
         call.args[2] = (uintptr_t)&commmandSize;
+        call.sizes[0] = 0x04;
+        call.sizes[1] = 0x03;
+        call.sizes[2] = 0x08;
+        call.index = 0x000060c000000062;
         //call = (struct BluetoothCallB)&request; //var_90 = &var_8;
         
         // IOBluetoothHostController::

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "BluetoothHCIDispatchUserClientRoutine:(null)">
+      </ContextState>
+      <ContextState
+         contextName = "_BluetoothHCISendRawCommand:ViewController.m">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
