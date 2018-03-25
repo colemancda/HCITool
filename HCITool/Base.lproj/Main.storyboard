@@ -684,7 +684,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="Bluetooth HCI Tool" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
@@ -707,7 +707,62 @@
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p23-ji-rbv">
+                                <rect key="frame" x="159" y="175" width="162" height="32"/>
+                                <buttonCell key="cell" type="push" title="Change Local Name" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6OK-gg-h0H">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="writeName:" target="XfG-lQ-9wD" id="Djl-6o-JkB"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Tq2-fE-J0p">
+                                <rect key="frame" x="122" y="130" width="236" height="32"/>
+                                <buttonCell key="cell" type="push" title="Read Accept Conection Timeout" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qeC-5l-tvd">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="readConnectionTimeout:" target="XfG-lQ-9wD" id="FOf-ku-m5R"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lkO-eA-WMh">
+                                <rect key="frame" x="18" y="100" width="444" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="Umd-Ut-OGV">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="g4J-qB-TUn">
+                                <rect key="frame" x="18" y="223" width="444" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Address" id="oHs-N3-FBy">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="lkO-eA-WMh" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="9Eq-pi-iWe"/>
+                            <constraint firstItem="lkO-eA-WMh" firstAttribute="top" secondItem="Tq2-fE-J0p" secondAttribute="bottom" constant="20" id="EfQ-5u-amN"/>
+                            <constraint firstItem="p23-ji-rbv" firstAttribute="top" secondItem="g4J-qB-TUn" secondAttribute="bottom" constant="20" id="Ocd-8k-wj2"/>
+                            <constraint firstAttribute="trailing" secondItem="g4J-qB-TUn" secondAttribute="trailing" constant="20" id="P51-FN-gFa"/>
+                            <constraint firstItem="Tq2-fE-J0p" firstAttribute="top" secondItem="p23-ji-rbv" secondAttribute="bottom" constant="24" id="aBk-BJ-WRH"/>
+                            <constraint firstItem="lkO-eA-WMh" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="gTl-hc-gLa"/>
+                            <constraint firstItem="g4J-qB-TUn" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="hyH-me-hvE"/>
+                            <constraint firstItem="g4J-qB-TUn" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="30" id="oix-9s-C6W"/>
+                            <constraint firstAttribute="trailing" secondItem="lkO-eA-WMh" secondAttribute="trailing" constant="20" id="w4Z-Hy-Jgx"/>
+                            <constraint firstItem="p23-ji-rbv" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="wsk-VU-6CU"/>
+                            <constraint firstItem="Tq2-fE-J0p" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="yLf-bp-EyI"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="addressLabel" destination="g4J-qB-TUn" id="akp-r4-JxT"/>
+                        <outlet property="messageLabel" destination="lkO-eA-WMh" id="8oc-Lb-jBe"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

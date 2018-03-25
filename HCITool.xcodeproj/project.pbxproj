@@ -24,7 +24,6 @@
 		6E740C832065AA71006589F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6E740C852065AA71006589F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E740C862065AA71006589F6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6E740C882065AA71006589F6 /* HCITool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HCITool.entitlements; sourceTree = "<group>"; };
 		6E740C8E2065ADE9006589F6 /* IOBluetoothHostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOBluetoothHostController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,7 +66,6 @@
 				6E740C822065AA71006589F6 /* Main.storyboard */,
 				6E740C852065AA71006589F6 /* Info.plist */,
 				6E740C862065AA71006589F6 /* main.m */,
-				6E740C882065AA71006589F6 /* HCITool.entitlements */,
 			);
 			path = HCITool;
 			sourceTree = "<group>";

