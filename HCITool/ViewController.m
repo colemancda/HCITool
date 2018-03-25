@@ -41,8 +41,14 @@ typedef struct {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _IOBluetoothHostController *hciController = [IOBluetoothHostController defaultController];
     
-    [self writeName:nil];
+    NSString *address = [hciController addressAsString];
+    
+    NSLog(@"Address: %@ %@", address, hciController.className);
+    
+    [self readConnectionTimeout:nil];
+    //[self writeName:nil];
     
     
     /*
@@ -95,25 +101,26 @@ typedef struct {
     
     struct HCIRequest request;
     uint16 output;
+    size_t outputSize = sizeof(output);
     
-    int error = BluetoothHCIRequestCreate(&request, 1000, &output, 2);
+    int error = BluetoothHCIRequestCreate(&request, 1000, nil, 0);
     
-    NSLog(@"Created request: %lu", request.identifier);
+    NSLog(@"Created request: %u", request.identifier);
     
     if (error) {
         
         BluetoothHCIRequestDelete(request);
+        
         printf("Couldnt create error: %08x\n", error);
     }
     
-    //struct BluetoothCall command;
-    //memset(&command, 0xAA, sizeof(command));
-    
-    uint8 * command = malloc(3);
+    size_t commandSize = 3;
+    uint8 * command = malloc(commandSize);
     command[0] = 0x15;
     command[1] = 0x0C;
+    command[2] = 0;
     
-    error = BluetoothHCISendRawCommand(request, command, 3);
+    error = _BluetoothHCISendRawCommand(request, command, 3);
     
     if (error) {
         
@@ -124,15 +131,13 @@ typedef struct {
     sleep(0x1);
     
     BluetoothHCIRequestDelete(request);
+    
+    NSLog(@"BluetoothHCIReadConnectionAcceptTimeout %@", @(output));
 }
 
 - (void)writeName:(id)sender {
     
     _IOBluetoothHostController *hciController = [IOBluetoothHostController defaultController];
-    
-    NSString *address = [hciController addressAsString];
-    
-    NSLog(@"Address: %@ %@", address, hciController.className);
     
     unsigned char name[256];
     
@@ -211,23 +216,35 @@ int __sendRawHCIRequest(int arg0, int arg1, int arg2, int arg3) {
 }
 */
 
-/*
-int _BluetoothHCISendRawCommand(int arg0, int arg1, int arg2) {
-    var_8 = arg0;
-    var_10 = arg1;
-    var_18 = arg2;
-    memset(&var_90, 0x0, 0x74);
-    if ((var_10 != 0x0) && (var_18 > 0x0)) {
-        var_90 = &var_8;
-        var_4 = _BluetoothHCIDispatchUserClientRoutine(&var_90, 0x0, 0x0);
+int _BluetoothHCISendRawCommand(struct HCIRequest request, void *commandData, size_t commmandSize) {
+    
+    //var_8 = arg0;
+    //var_10 = arg1;
+    //var_18 = arg2;
+    int errorCode = 0; // var_4
+    
+    //struct BluetoothCall call; // var_90
+    size_t size = 0x74;
+    //assert(size == sizeof(call));
+    void *call = malloc(size);
+    memset(call, 0x0, size);
+    
+    if ((commandData != 0x0) && (commmandSize > 0x0)) {
+        
+        uint32 *callPointer = (uint32 *)call;
+        callPointer[0] = request.identifier;
+        callPointer[1] = commandData;
+        callPointer[2] = commmandSize;
+        //call = (struct BluetoothCallB)&request; //var_90 = &var_8;
+        
+        errorCode = BluetoothHCIDispatchUserClientRoutine(&call, 0x0, 0x0);
     }
     else {
-        var_4 = 0xe00002c2;
+        errorCode = 0xe00002c2;
     }
-    rax = var_4;
-    return rax;
+    
+    return errorCode;
 }
-*/
 
 int vuln(void) {
     
