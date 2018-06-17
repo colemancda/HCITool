@@ -72,18 +72,14 @@ struct IOBluetoothHCIEventNotificationMessage {
     
     NSString *address = [self.hciController addressAsString];
     
-    NSString *addressMessage = [NSString stringWithFormat:@"%@ %@ %@", address, self.hciController.className, self.hciController.nameAsString];
+    NSString *addressMessage = [NSString stringWithFormat:@"%@\n%@\n%@", self.hciController.className, address.uppercaseString, self.hciController.nameAsString];
     
     NSLog(@"%@", addressMessage);
     
     self.addressLabel.stringValue = addressMessage;
     
-    //[self readConnectionTimeout:nil];
-    //[self writeName:nil];
-    //[self scan:nil];
-    
-    // int _IOBluetoothNotificationLibNotificationCreate(int arg0, int arg1, int arg2, int arg3, int arg4)
-    //IOBluetoothNotificationLibNotificationCreate()
+    // TEMP
+    [self scan:nil];
 }
 
 - (IBAction)scan:(id)sender {
@@ -170,7 +166,7 @@ struct IOBluetoothHCIEventNotificationMessage {
     BluetoothHCIRequestID request;
     int error = BluetoothHCIRequestCreate(&request, 1000, nil, 0);
     
-    NSLog(@"Created request: %lu", request);
+    NSLog(@"Created request: %u", request);
     
     if (error) {
         
@@ -216,8 +212,6 @@ struct IOBluetoothHCIEventNotificationMessage {
     NSData *data = [NSData dataWithBytes:bytes length:size];
     
     NSLog(@"HCI Event  %@", data);
-    
-    
 }
 
 - (void)BluetoothHCIEventNotificationMessage:(IOBluetoothHostController*)controller
