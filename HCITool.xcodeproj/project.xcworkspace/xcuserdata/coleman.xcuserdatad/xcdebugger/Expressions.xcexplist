@@ -8,5 +8,11 @@
       <ContextState
          contextName = "_BluetoothHCISendRawCommand:ViewController.m">
       </ContextState>
+      <ContextState
+         contextName = "-[ViewController _processRawEventData:dataSize:]:ViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController BluetoothHCIEventNotificationMessage:inNotificationMessage:]:ViewController.m">
+      </ContextState>
    </ContextStates>
 </VariablesViewState>

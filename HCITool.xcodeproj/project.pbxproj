@@ -12,6 +12,7 @@
 		6E740C812065AA71006589F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E740C802065AA71006589F6 /* Assets.xcassets */; };
 		6E740C842065AA71006589F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E740C822065AA71006589F6 /* Main.storyboard */; };
 		6E740C872065AA71006589F6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E740C862065AA71006589F6 /* main.m */; };
+		6EACEB0F20D6ACF100D9B8F2 /* HCIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EACEB0E20D6ACF100D9B8F2 /* HCIDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,8 @@
 		6E740C852065AA71006589F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E740C862065AA71006589F6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6E740C8E2065ADE9006589F6 /* IOBluetoothHostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOBluetoothHostController.h; sourceTree = "<group>"; };
+		6EACEB0D20D6ACF100D9B8F2 /* HCITool-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HCITool-Bridging-Header.h"; sourceTree = "<group>"; };
+		6EACEB0E20D6ACF100D9B8F2 /* HCIDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HCIDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,10 +65,12 @@
 				6E740C8E2065ADE9006589F6 /* IOBluetoothHostController.h */,
 				6E740C7D2065AA71006589F6 /* ViewController.h */,
 				6E740C7E2065AA71006589F6 /* ViewController.m */,
+				6EACEB0E20D6ACF100D9B8F2 /* HCIDelegate.swift */,
 				6E740C802065AA71006589F6 /* Assets.xcassets */,
 				6E740C822065AA71006589F6 /* Main.storyboard */,
 				6E740C852065AA71006589F6 /* Info.plist */,
 				6E740C862065AA71006589F6 /* main.m */,
+				6EACEB0D20D6ACF100D9B8F2 /* HCITool-Bridging-Header.h */,
 			);
 			path = HCITool;
 			sourceTree = "<group>";
@@ -101,6 +106,7 @@
 				TargetAttributes = {
 					6E740C762065AA71006589F6 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
@@ -148,6 +154,7 @@
 				6E740C7F2065AA71006589F6 /* ViewController.m in Sources */,
 				6E740C872065AA71006589F6 /* main.m in Sources */,
 				6E740C7C2065AA71006589F6 /* AppDelegate.m in Sources */,
+				6EACEB0F20D6ACF100D9B8F2 /* HCIDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,13 +279,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				INFOPLIST_FILE = HCITool/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pureswift.HCITool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "HCITool/HCITool-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -286,13 +298,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				INFOPLIST_FILE = HCITool/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pureswift.HCITool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "HCITool/HCITool-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

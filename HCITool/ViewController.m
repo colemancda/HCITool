@@ -15,40 +15,14 @@
 
 #import "ViewController.h"
 #import "IOBluetoothHostController.h"
-
-struct IOBluetoothHCIDispatchParams {
-    uint64_t args[7];
-    uint64_t sizes[7];
-    uint64_t index;
-};
-
-struct BluetoothHCIUserClientNotificationDataInfo {
-    unsigned long long _field1;
-    unsigned long long _field2;
-    struct BluetoothHCIRequestCallbackInfo _field3;
-    unsigned int parameterSize;
-    unsigned int _field5;
-    unsigned short opcode;
-    unsigned char _field7;
-    unsigned char _field8;
-    unsigned char _field9;
-    unsigned char _field10;
-    unsigned char _field11;
-    unsigned char _field12;
-};
-
-struct IOBluetoothHCIEventNotificationMessage {
-    struct BluetoothHCIUserClientNotificationDataInfo dataInfo;
-    void *eventParameterData;
-};
+#import "HCITool-Swift.h"
 
 @interface ViewController ()
 
 @property (nonatomic, weak) IBOutlet NSTextField *addressLabel;
-
 @property (nonatomic, weak) IBOutlet NSTextField *messageLabel;
-
-@property (nonatomic) _IOBluetoothHostController *hciController;
+@property (nonatomic) IOBluetoothHostController *hciController;
+@property (nonatomic) HCIDelegate *delegate;
 
 @end
 
@@ -68,18 +42,19 @@ struct IOBluetoothHCIEventNotificationMessage {
     [super viewDidLoad];
     
     self.hciController = [IOBluetoothHostController defaultController];
-    self.hciController.delegate = self;
+    self.delegate = [[HCIDelegate alloc] init];
+    self.hciController.delegate = self.delegate;
     
     NSString *address = [self.hciController addressAsString];
     
-    NSString *addressMessage = [NSString stringWithFormat:@"%@\n%@\n%@", self.hciController.className, address.uppercaseString, self.hciController.nameAsString];
+    NSString *addressMessage = [NSString stringWithFormat:@"%@\n%@\n%@",
+                                self.hciController.className,
+                                address.uppercaseString,
+                                self.hciController.nameAsString];
     
     NSLog(@"%@", addressMessage);
     
     self.addressLabel.stringValue = addressMessage;
-    
-    // TEMP
-    [self scan:nil];
 }
 
 - (IBAction)scan:(id)sender {
@@ -224,7 +199,7 @@ struct IOBluetoothHCIEventNotificationMessage {
     
     size_t size = message->dataInfo.parameterSize;
     
-    NSData *data = [NSData dataWithBytes:&message->eventParameterData length:size];
+    NSData *data = [NSData dataWithBytes:&message->eventParameterBytes length:size];
     
     NSLog(@"HCI Event %16x %@", message->dataInfo.opcode, data);
 }

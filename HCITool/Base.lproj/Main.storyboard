@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="17F77" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -719,7 +720,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Tq2-fE-J0p">
-                                <rect key="frame" x="122" y="130" width="236" height="32"/>
+                                <rect key="frame" x="122" y="146" width="236" height="32"/>
                                 <buttonCell key="cell" type="push" title="Read Accept Conection Timeout" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qeC-5l-tvd">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -728,15 +729,15 @@
                                     <action selector="readConnectionTimeout:" target="XfG-lQ-9wD" id="FOf-ku-m5R"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lkO-eA-WMh">
-                                <rect key="frame" x="18" y="100" width="444" height="17"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lkO-eA-WMh">
+                                <rect key="frame" x="18" y="116" width="444" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="Umd-Ut-OGV">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="g4J-qB-TUn">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4J-qB-TUn">
                                 <rect key="frame" x="18" y="223" width="444" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Address" id="oHs-N3-FBy">
                                     <font key="font" metaFont="system"/>
@@ -744,13 +745,25 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="htF-UY-IlD">
+                                <rect key="frame" x="196" y="117" width="89" height="32"/>
+                                <buttonCell key="cell" type="push" title="LE Scan" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1Tr-HM-0J7">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="scan:" target="XfG-lQ-9wD" id="god-hx-YFs"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="htF-UY-IlD" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="2FZ-jl-d8i"/>
                             <constraint firstItem="lkO-eA-WMh" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="9Eq-pi-iWe"/>
                             <constraint firstItem="lkO-eA-WMh" firstAttribute="top" secondItem="Tq2-fE-J0p" secondAttribute="bottom" constant="20" id="EfQ-5u-amN"/>
+                            <constraint firstItem="htF-UY-IlD" firstAttribute="top" secondItem="Tq2-fE-J0p" secondAttribute="bottom" constant="8" id="JP6-Yo-seN"/>
                             <constraint firstItem="p23-ji-rbv" firstAttribute="top" secondItem="g4J-qB-TUn" secondAttribute="bottom" constant="20" id="Ocd-8k-wj2"/>
                             <constraint firstAttribute="trailing" secondItem="g4J-qB-TUn" secondAttribute="trailing" constant="20" id="P51-FN-gFa"/>
-                            <constraint firstItem="Tq2-fE-J0p" firstAttribute="top" secondItem="p23-ji-rbv" secondAttribute="bottom" constant="24" id="aBk-BJ-WRH"/>
+                            <constraint firstItem="Tq2-fE-J0p" firstAttribute="top" secondItem="p23-ji-rbv" secondAttribute="bottom" constant="8" id="aBk-BJ-WRH"/>
                             <constraint firstItem="lkO-eA-WMh" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="gTl-hc-gLa"/>
                             <constraint firstItem="g4J-qB-TUn" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="hyH-me-hvE"/>
                             <constraint firstItem="g4J-qB-TUn" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="30" id="oix-9s-C6W"/>
